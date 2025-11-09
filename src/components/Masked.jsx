@@ -5,57 +5,17 @@ import brachiosaurus from "../assets/brachiosaurus.gif";
 import land from "../assets/land.mp4";
 
 const MODES = {
-  DEFAULT: "default",
   BACKGROUND: "background",
+  DEFAULT: "default",
   DINO_MASK: "dinoMask",
   FEATHER_MASK: "featherMask",
 };
 
 export default function Masked() {
-  const [mode, setMode] = useState(MODES.DEFAULT);
+  const [mode, setMode] = useState(MODES.BACKGROUND);
 
   return (
     <div className="masked-root">
-      {/* 상태 전환 버튼들 */}
-      <div className="masked-toolbar">
-        <button
-          type="button"
-          className={
-            "masked-toggle" + (mode === MODES.DEFAULT ? " is-active" : "")
-          }
-          onClick={() => setMode(MODES.DEFAULT)}
-        >
-          Default
-        </button>
-        <button
-          type="button"
-          className={
-            "masked-toggle" + (mode === MODES.BACKGROUND ? " is-active" : "")
-          }
-          onClick={() => setMode(MODES.BACKGROUND)}
-        >
-          Background On
-        </button>
-        <button
-          type="button"
-          className={
-            "masked-toggle" + (mode === MODES.DINO_MASK ? " is-active" : "")
-          }
-          onClick={() => setMode(MODES.DINO_MASK)}
-        >
-          Dino Mask
-        </button>
-        <button
-          type="button"
-          className={
-            "masked-toggle" + (mode === MODES.FEATHER_MASK ? " is-active" : "")
-          }
-          onClick={() => setMode(MODES.FEATHER_MASK)}
-        >
-          Feather Mask
-        </button>
-      </div>
-
       {/* 메인 스테이지 */}
       <div className={`masked-stage mode-${mode}`}>
         {/* 2. 배경 On + 4. Feather 모드용 전체 배경 영상 */}
@@ -105,6 +65,19 @@ export default function Masked() {
           Long neck, big heart, and <br />
           even bigger appetite!
         </p>
+      </div>
+
+      {/* 모드 전환 버튼 */}
+      <div className="masked-toolbar">
+        {Object.entries(MODES).map(([key, value]) => (
+          <button
+            key={key}
+            className={`masked-toggle ${mode === value ? "is-active" : ""}`}
+            onClick={() => setMode(value)}
+          >
+            {key.replace("_", " ")}
+          </button>
+        ))}
       </div>
     </div>
   );

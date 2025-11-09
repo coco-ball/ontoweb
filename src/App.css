@@ -14,11 +14,11 @@
 }
 
 /* 카메라 켜졌을 때만 투명하게 해서 video 보여주기 */
-.app-root.camera-on {
+.app-root.bg-on {
   background: transparent;
 }
 
-.app-root.camera-on .folded .stage {
+.app-root.bg-on .folded .stage {
   background: transparent !important;
 }
 
@@ -124,7 +124,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 140px 24px 140px;
+  padding: 140px 60px 140px;
 }
 .example-card {
   width: min(100vw - 48px, 1440px);

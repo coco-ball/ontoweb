@@ -16,6 +16,9 @@
   flex-wrap: wrap;
   gap: 8px;
   margin: 0 auto;
+  position: relative;
+  bottom: 100px;
+  z-index: 20;
 }
 
 .masked-toggle {
@@ -151,13 +154,13 @@
 /* 캡션 텍스트 */
 .masked-caption {
   position: absolute;
-  top: 25%;
+  top: 23%;
   left: 50%;
   transform: translate(-50%, -50%);
 
   width: calc(100% - 64px);
   text-align: center;
-  font-size: 96px;
+  font-size: 90px;
   line-height: 1.05;
   margin: 0;
   font-family: "ABC Arizona Flare", system-ui, -apple-system, BlinkMacSystemFont,

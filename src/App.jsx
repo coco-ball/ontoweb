@@ -15,63 +15,36 @@ const CARDS = [
 ];
 
 export default function App() {
-  const [isCameraOn, setIsCameraOn] = useState(false);
+  const [isBgOn, setIsBgOn] = useState(false);
   const [selectedId, setSelectedId] = useState(CARDS[0].id);
   const videoRef = useRef(null);
-  const streamRef = useRef(null);
 
-  // 카메라 on/off
   useEffect(() => {
-    async function startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: false,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.style.display = "block";
-        }
-        streamRef.current = stream;
-      } catch (err) {
-        console.error("카메라 접근 실패:", err);
-        alert("카메라에 접근할 수 없어요. 브라우저 권한을 다시 확인해주세요.");
-        setIsCameraOn(false);
-      }
-    }
+    if (isBgOn && videoRef.current) {
+      // 1~14 사이 랜덤 번호
+      const randomIndex = Math.floor(Math.random() * 14) + 1;
+      const videoPath = `/src/assets/background/${randomIndex}.mp4`;
 
-    function stopCamera() {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((t) => t.stop());
-        streamRef.current = null;
-      }
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
-        videoRef.current.style.display = "none";
-      }
+      videoRef.current.src = videoPath;
+      videoRef.current.loop = true;
+      videoRef.current.muted = true;
+      videoRef.current.play();
+    } else if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.src = "";
     }
-
-    if (isCameraOn) {
-      startCamera();
-    } else {
-      stopCamera();
-    }
-
-    return () => {
-      stopCamera();
-    };
-  }, [isCameraOn]);
+  }, [isBgOn]);
 
   const selectedCard = CARDS.find((c) => c.id === selectedId);
 
   return (
-    <div className={`app-root ${isCameraOn ? "camera-on" : ""}`}>
+    <div className={`app-root ${isBgOn ? "bg-on" : ""}`}>
       {/* 카메라 배경 */}
       <video
         ref={videoRef}
         autoPlay
         playsInline
-        className={`bg-video ${isCameraOn ? "show" : ""}`}
+        className={`bg-video ${isBgOn ? "show" : ""}`}
       />
 
       <Header />
@@ -83,16 +56,16 @@ export default function App() {
       <div className="bottom-menu">
         {/* 카메라 토글 */}
         <div className="panel">
-          <span className="label">Camera</span>
+          <span className="label">Background</span>
           <label className="toggle">
             <input
               type="checkbox"
-              checked={isCameraOn}
-              onChange={() => setIsCameraOn((v) => !v)}
+              checked={isBgOn}
+              onChange={() => setIsBgOn((v) => !v)}
             />
             <span className="slider" />
           </label>
-          <span className="status">{isCameraOn ? "ON" : "OFF"}</span>
+          <span className="status">{isBgOn ? "ON" : "OFF"}</span>
         </div>
 
         {/* 캐러셀 */}
