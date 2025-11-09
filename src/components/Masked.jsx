@@ -8,7 +8,7 @@ const MODES = {
   BACKGROUND: "background",
   DEFAULT: "default",
   DINO_MASK: "dinoMask",
-  FEATHER_MASK: "featherMask",
+  TRANSPARENT: "transparent", // 👈 featherMask 대신 이 이름으로 변경
 };
 
 export default function Masked({ bgVideoSrc }) {
@@ -17,13 +17,10 @@ export default function Masked({ bgVideoSrc }) {
   return (
     <div className="masked-root">
       <div className={`masked-stage mode-${mode}`}>
-        {/* 2. Background & Feather 모드: land.mp4 전체 배경 */}
-        {(mode === MODES.BACKGROUND || mode === MODES.FEATHER_MASK) && (
+        {/* BACKGROUND: land.mp4 */}
+        {mode === MODES.BACKGROUND && (
           <video
-            className={
-              "masked-video" +
-              (mode === MODES.FEATHER_MASK ? " masked-video--feather" : "")
-            }
+            className="masked-video"
             src={land}
             autoPlay
             loop
@@ -32,20 +29,32 @@ export default function Masked({ bgVideoSrc }) {
           />
         )}
 
-        {/* 3. Dino Mask 모드: 흰 배경 + 브라키오 안에 bgVideoSrc */}
+        {/* DINO_MASK: 브라키오 + 캡션 둘 다 bgVideoSrc로 마스킹 */}
         {mode === MODES.DINO_MASK && bgVideoSrc && (
-          <video
-            className="masked-video masked-video--dino"
-            src={bgVideoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
+          <>
+            <video
+              className="masked-video masked-video--dino"
+              src={bgVideoSrc}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+            <video
+              className="masked-video masked-video--caption"
+              src={bgVideoSrc}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          </>
         )}
 
-        {/* Default & Background 모드에서 보이는 원래 GIF */}
-        {(mode === MODES.DEFAULT || mode === MODES.BACKGROUND) && (
+        {/* 🦕 공룡 GIF: default + background + transparent 에서 다 보이게 */}
+        {(mode === MODES.DEFAULT ||
+          mode === MODES.BACKGROUND ||
+          mode === MODES.TRANSPARENT) && (
           <img
             className="brachio-gif"
             src={brachiosaurus}
@@ -53,11 +62,7 @@ export default function Masked({ bgVideoSrc }) {
           />
         )}
 
-        {/* Feather 모드에서 흰 실루엣 */}
-        {mode === MODES.FEATHER_MASK && (
-          <div className="brachio-silhouette" aria-hidden="true" />
-        )}
-
+        {/* 공통 캡션 */}
         <p className="masked-caption">
           Long neck, big heart, and <br />
           even bigger appetite!
@@ -72,7 +77,7 @@ export default function Masked({ bgVideoSrc }) {
             className={`masked-toggle ${mode === value ? "is-active" : ""}`}
             onClick={() => setMode(value)}
           >
-            {key.replace("_", " ")}
+            {key}
           </button>
         ))}
       </div>
