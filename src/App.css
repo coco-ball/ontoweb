@@ -1,0 +1,276 @@
+/* src/App.css */
+
+.app-root {
+  --panel-bg: rgba(255, 255, 255, 0.85);
+  --accent: #007aff;
+  --bg: #ffffff;
+  font-family: "Pretendard", "ABC Arizona Sans", system-ui, -apple-system,
+    sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* 카메라 켜졌을 때만 투명하게 해서 video 보여주기 */
+.app-root.camera-on {
+  background: transparent;
+}
+
+.app-root.camera-on .folded .stage {
+  background: transparent !important;
+}
+
+/* 카메라 영상은 맨 뒤 */
+.bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  z-index: -1;
+  background: #000;
+}
+.bg-video.show {
+  display: block;
+}
+
+/* 하단 메뉴 컨테이너 */
+.bottom-menu {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* .panel과 .bottom-carousel은 기존 스타일 그대로 사용 */
+.bottom-menu .panel {
+  pointer-events: all;
+}
+.bottom-menu .bottom-carousel {
+  pointer-events: all;
+}
+
+/* 카메라 onoff */
+.panel {
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--panel-bg);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 6px 16px 6px 14px;
+  border-radius: 999px;
+  backdrop-filter: blur(16px);
+}
+.label {
+  font-size: 0.85rem;
+}
+.status {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+/* 토글 */
+.toggle {
+  position: relative;
+  width: 50px;
+  height: 28px;
+}
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #d0d0d0;
+  border-radius: 999px;
+  transition: 0.2s ease-out;
+}
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.2s ease-out;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+.toggle input:checked + .slider {
+  background: var(--accent);
+}
+.toggle input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+/* 중앙 카드 */
+.center-stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 24px 140px;
+}
+.example-card {
+  width: min(100vw - 48px, 1440px);
+  height: calc(100vh - 60px - 140px);
+  max-height: 900px;
+  border-radius: 1.5rem;
+  padding: 2.2rem 2.4rem 2rem;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.example-card h2 {
+  margin: 0 0 0.7rem;
+}
+.example-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+/* 하단 캐러셀 */
+.bottom-carousel {
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.carousel-track {
+  pointer-events: all;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(14px);
+  border-radius: 999px;
+  padding: 10px 20px;
+  display: flex;
+  gap: 20px;
+  max-width: 90vw;
+  overflow-x: auto;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+.carousel-item {
+  background: rgba(255, 255, 255, 0);
+  /* border: 1px solid rgba(255, 255, 255, 0.4); */
+  border-radius: 12px;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  transition: 0.12s ease-out;
+  min-width: 100px;
+}
+.carousel-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+.carousel-item.active {
+  /* background: rgba(0, 122, 255, 0.14);
+  border-color: rgba(0, 122, 255, 0.45); */
+}
+.thumb-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  margin: auto;
+  margin-bottom: 12px;
+}
+.carousel-item.active .thumb-icon {
+  background: rgba(36, 36, 36, 0.9);
+  color: #fff;
+}
+
+.thumb-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.thumb-title {
+  font-size: 0.875rem;
+  font-family: "ABC Arizona Sans";
+  font-weight: 500;
+  line-height: 1;
+}
+.thumb-sub {
+  font-size: 0.6rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 680px) {
+  .center-stage {
+    padding-bottom: 140px;
+  }
+  .carousel-item {
+    min-width: 135px;
+  }
+}
+
+.header-container {
+  display: flex;
+  gap: 60px;
+  position: absolute;
+  width: 100vw;
+  padding: 20px 30px 0 30px;
+}
+
+.header-kr {
+  font-size: 0.8125rem;
+  letter-spacing: 0.01625rem;
+}
+
+.header-eng {
+  -webkit-text-stroke-width: 0.1px;
+  -webkit-text-stroke-color: black;
+  font-family: "ABC Arizona Sans";
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 138%; /* 1.46625rem */
+}
+
+.header-img {
+  width: 100px;
+  mix-blend-mode: multiply;
+  margin-left: 40px;
+}
+
+@media (min-width: 2000px) {
+  .header-container {
+    gap: 100px;
+    padding: 30px 40px 0 40px;
+  }
+
+  .header-kr {
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+  }
+
+  .header-eng {
+    font-size: 1.0625rem;
+  }
+
+  .header-img {
+    width: 132px;
+  }
+}

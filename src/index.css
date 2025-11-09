@@ -1,0 +1,86 @@
+/* src/index.css (또는 main.css) */
+
+/* === ABC Arizona Flare === */
+@font-face {
+  font-family: "ABC Arizona Flare";
+  src: url("/fonts/ABCArizonaFlare-Regular-Trial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* === ABC Arizona Sans === */
+@font-face {
+  font-family: "ABC Arizona Sans";
+  src: url("/fonts/ABCArizonaSans-Light-Trial.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ABC Arizona Sans";
+  src: url("/fonts/ABCArizonaSans-Regular-Trial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ABC Arizona Sans";
+  src: url("/fonts/ABCArizonaSans-Medium-Trial.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ABC Arizona Sans";
+  src: url("/fonts/ABCArizonaSans-Bold-Trial.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* === Pretendard === */
+@font-face {
+  font-family: "Pretendard";
+  src: url("/fonts/Pretendard-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("/fonts/Pretendard-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("/fonts/Pretendard-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: "Pretendard", "ABC Arizona Sans", system-ui, -apple-system,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: black;
+  background-color: white;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+p {
+  margin: 0;
+}

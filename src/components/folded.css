@@ -1,0 +1,71 @@
+/* 스코프를 .folded 아래로 묶어 전역 오염 방지 */
+.folded {
+  --size: min(70vw, 560px);
+  color: #222;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  display: grid;
+  place-items: center;
+}
+
+.folded .stage {
+  width: var(--size);
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+  /* background: #ffffff; */
+  /* background: transparent !important; */
+}
+
+.folded .toolbar {
+  position: absolute;
+  inset: auto 10px 10px 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 10;
+}
+
+.folded .toolbar button {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.folded .shapeViz {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* opacity: 0.12; */
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  cursor: grab;
+}
+
+.folded .shapeViz:active {
+  cursor: grabbing;
+}
+
+.folded .lines {
+  position: absolute;
+  inset: 0;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: flex-start; */
+  pointer-events: none;
+  /* z-index: 1; */
+}
+
+.folded .line {
+  height: var(--lh);
+  position: absolute;
+  left: 0;
+}
+
+.folded .ch {
+  display: inline-block;
+}

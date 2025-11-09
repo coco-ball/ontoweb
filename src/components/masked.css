@@ -1,0 +1,180 @@
+/* src/components/masked.css */
+
+.masked-root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+}
+
+/* 토글 버튼들 */
+.masked-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 auto;
+}
+
+.masked-toggle {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #d0d0d0;
+  background: #f5f5f5;
+  font-size: 12px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.masked-toggle.is-active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* 메인 스테이지 공통 */
+.masked-stage {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+
+  border-radius: 32px;
+  overflow: hidden;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 모드별 베이스 배경 느낌 */
+.mode-default {
+  background: #ffffff;
+}
+
+.mode-background {
+  background: #000000;
+}
+
+.mode-dinoMask {
+  background: #ffffff;
+}
+
+.mode-featherMask {
+  background: #000000;
+}
+
+/* 공통 비디오 스타일 */
+.masked-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 4. Feather 모드 – 가장자리 feathered 마스크 */
+.masked-video--feather {
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 1) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 1) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* 3. Dino Mask 모드 – 브라키오사우르스 모양으로 land.mp4가 보이게 */
+.masked-dino-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.masked-video--dino {
+  position: static; /* wrapper 안에서만 */
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  -webkit-mask-image: url("../assets/brachiosaurus.gif");
+  mask-image: url("../assets/brachiosaurus.gif");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* 1, 2에서 쓰는 원래 GIF */
+.brachio-gif {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  height: auto;
+  display: block;
+}
+
+/* 4. Feather 모드에서 흰색 실루엣 브라키오사우르스 */
+.brachio-silhouette {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1280px;
+  height: 0;
+  padding-bottom: 65%; /* 대략적인 비율 – 필요하면 조절 */
+  background: #ffffff;
+
+  -webkit-mask-image: url("../assets/brachiosaurus.gif");
+  mask-image: url("../assets/brachiosaurus.gif");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* 캡션 텍스트 */
+.masked-caption {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100% - 64px);
+  text-align: center;
+  font-size: 96px;
+  line-height: 1.05;
+  margin: 0;
+  font-family: "ABC Arizona Flare", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  z-index: 0;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* 모드별 텍스트 컬러 */
+.mode-default .masked-caption,
+.mode-dinoMask .masked-caption {
+  color: #000000;
+}
+
+.mode-background .masked-caption,
+.mode-featherMask .masked-caption {
+  color: #ffffff;
+  /* text-shadow: 0 0 8px rgba(0, 0, 0, 0.6); */
+}
