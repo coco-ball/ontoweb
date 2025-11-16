@@ -251,8 +251,13 @@
 
 .header-img {
   width: 100px;
-  mix-blend-mode: multiply;
   margin-left: 40px;
+}
+
+.header-img img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
 }
 
 @media (min-width: 2000px) {

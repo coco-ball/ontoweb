@@ -202,6 +202,10 @@ Nulla et elit nec magna feugiat auctor. Vivamus fermentum aliquet mi at vestibul
 
       // 채움
       ctxViz.save();
+      ctxViz.shadowColor = "rgba(0, 0, 0, 0.25)"; // 그림자 색상
+      ctxViz.shadowBlur = 16; // 퍼짐 정도
+      ctxViz.shadowOffsetX = 0; // 가로 이동
+      ctxViz.shadowOffsetY = 4; // 세로 이동
       ctxViz.fillStyle = "#ffffffff";
       // ctxViz.globalAlpha = 0.18;
       ctxViz.fill(P);

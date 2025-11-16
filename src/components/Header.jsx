@@ -21,7 +21,9 @@ export default function Header() {
         <br />
         You can experience the following in OntoWeb.
       </p>
-      <img src={headerImg} alt="logo-image" className="header-img"></img>
+      <div className="header-img">
+        <img src={headerImg} alt="logo-image"></img>
+      </div>
     </div>
   );
 }
