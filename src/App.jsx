@@ -1,6 +1,7 @@
 // src/App.jsx
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
+
 import Folded from "./components/Folded.jsx";
 import Organism from "./components/Organism.jsx";
 import Masked from "./components/Masked.jsx";
@@ -14,59 +15,113 @@ const CARDS = [
   { id: "texture", label: "Texture", component: <Texture /> },
 ];
 
+const TOTAL_BG_VIDEOS = 14;
+
+// 현재 번호 제외한 랜덤 번호를 뽑는 유틸 함수
+function pickNextRandom(exclude, total) {
+  const pool = [];
+  for (let i = 1; i <= total; i++) {
+    if (i !== exclude) pool.push(i);
+  }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 export default function App() {
   const [isBgOn, setIsBgOn] = useState(false);
   const [selectedId, setSelectedId] = useState(CARDS[0].id);
-  const [bgVideoSrc, setBgVideoSrc] = useState(null); // 🔹 추가
+
+  // index + src 분리 관리
+  const [bgIndex, setBgIndex] = useState(null);
+  const [bgVideoSrc, setBgVideoSrc] = useState(null);
+
   const videoRef = useRef(null);
 
+  // ===========================================================
+  // 1) 영상이 끝났을 때 next random 선택
+  // ===========================================================
   useEffect(() => {
-    if (isBgOn && videoRef.current) {
-      const randomIndex = Math.floor(Math.random() * 14) + 1;
+    const video = videoRef.current;
+    if (!video) return;
 
-      // 🔸 비디오 파일을 public/background/에 두고 이런 식으로 쓰는 걸 추천
-      const src = `/background/${randomIndex}.mp4`;
+    const handleEnded = () => {
+      setBgIndex((prev) => {
+        const now = prev ?? 1;
+        return pickNextRandom(now, TOTAL_BG_VIDEOS);
+      });
+    };
+
+    video.addEventListener("ended", handleEnded);
+    return () => {
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
+  // ===========================================================
+  // 2) bgIndex / isBgOn 변화 시 실제로 영상 재생
+  // ===========================================================
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isBgOn) {
+      let index = bgIndex;
+
+      // 처음 ON 시 처음 랜덤 배정
+      if (index == null) {
+        index = Math.floor(Math.random() * TOTAL_BG_VIDEOS) + 1;
+        setBgIndex(index);
+      }
+
+      const src = `/background/${index}.mp4`;
       setBgVideoSrc(src);
 
-      videoRef.current.src = src;
-      videoRef.current.loop = true;
-      videoRef.current.muted = true;
-      videoRef.current.play();
-    } else if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.src = "";
-      setBgVideoSrc(null);
-    }
-  }, [isBgOn]);
+      video.src = src;
+      video.loop = false;
+      video.muted = true;
+      video.playsInline = true;
 
+      video.play().catch((err) => console.warn("Video autoplay blocked:", err));
+    } else {
+      // background off
+      video.pause();
+      video.src = "";
+      setBgVideoSrc(null);
+      setBgIndex(null);
+    }
+  }, [isBgOn, bgIndex]);
+
+  // ===========================================================
+  // 3) 카드 선택
+  // ===========================================================
   const selectedCard = CARDS.find((c) => c.id === selectedId);
 
   return (
     <div className={`app-root ${isBgOn ? "bg-on" : ""}`}>
-      {/* 페이지 전체 배경 비디오 */}
+      {/* 배경 비디오 */}
       <video
         ref={videoRef}
         autoPlay
+        muted
         playsInline
         className={`bg-video ${isBgOn ? "show" : ""}`}
       />
 
       <Header />
 
-      {/* 가운데 선택된 컴포넌트 */}
+      {/* 가운데 카드 */}
       <div className="center-stage">
         {selectedId === "masked" ? (
-          // 🔹 Masked 에 background 비디오 src 전달
           <Masked bgVideoSrc={bgVideoSrc} />
         ) : (
           selectedCard?.component
         )}
       </div>
 
-      {/* 하단 메뉴 (토글 + 캐러셀) */}
+      {/* 하단 토글 + 캐러셀 */}
       <div className="bottom-menu">
         <div className="panel">
           <span className="label">Background</span>
+
           <label className="toggle">
             <input
               type="checkbox"
@@ -75,6 +130,7 @@ export default function App() {
             />
             <span className="slider" />
           </label>
+
           <span className="status">{isBgOn ? "ON" : "OFF"}</span>
         </div>
 

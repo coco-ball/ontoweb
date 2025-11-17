@@ -1,5 +1,5 @@
 // src/components/Masked.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./masked.css";
 import brachiosaurus from "../assets/brachiosaurus.gif";
 import land from "../assets/land.mp4";
@@ -13,6 +13,33 @@ const MODES = {
 
 export default function Masked({ bgVideoSrc }) {
   const [mode, setMode] = useState(MODES.BACKGROUND);
+
+  // 🔁 5초마다 자동으로 모드 순환
+  useEffect(() => {
+    // bgVideoSrc가 없으면 DINO_MASK는 건너뛰기
+    const allModes = [
+      MODES.BACKGROUND,
+      MODES.DEFAULT,
+      MODES.DINO_MASK,
+      MODES.TRANSPARENT,
+    ];
+    const availableModes = bgVideoSrc
+      ? allModes
+      : allModes.filter((m) => m !== MODES.DINO_MASK);
+
+    if (availableModes.length === 0) return;
+
+    const intervalId = setInterval(() => {
+      setMode((prev) => {
+        const currentIdx = availableModes.indexOf(prev);
+        const nextIdx =
+          currentIdx === -1 ? 0 : (currentIdx + 1) % availableModes.length;
+        return availableModes[nextIdx];
+      });
+    }, 5000); // 5초마다 변경
+
+    return () => clearInterval(intervalId);
+  }, [bgVideoSrc]);
 
   return (
     <div className="masked-root">
@@ -69,7 +96,7 @@ export default function Masked({ bgVideoSrc }) {
         </p>
       </div>
 
-      {/* 모드 전환 버튼 */}
+      {/* 모드 전환 버튼 (수동 조작도 그대로 가능) */}
       <div className="masked-toolbar">
         {Object.entries(MODES).map(([key, value]) => (
           <button

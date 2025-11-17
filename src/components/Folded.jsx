@@ -608,9 +608,13 @@ Nulla et elit nec magna feugiat auctor. Vivamus fermentum aliquet mi at vestibul
           morphToPresetIndex(presetIdx);
         };
         shuffleBtn.addEventListener("click", onShuffle);
-        listeners.push(() =>
-          shuffleBtn.removeEventListener("click", onShuffle)
-        );
+
+        const intervalId = setInterval(onShuffle, 5000);
+
+        listeners.push(() => {
+          shuffleBtn.removeEventListener("click", onShuffle);
+          clearInterval(intervalId);
+        });
       }
     }
 
