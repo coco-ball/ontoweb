@@ -280,10 +280,19 @@
   }
 }
 
-.organism-card {
+.example-card.organism-card {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  width: 100vw;
+  height: 100vh;
+  max-height: none;
   padding: 0;
-  position: relative;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
   overflow: hidden;
+  z-index: 5;
+  pointer-events: none;
 }
 
 .organism-canvas {
